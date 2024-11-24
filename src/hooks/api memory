@@ -1,0 +1,4 @@
+Room Listings: API to fetch available rooms, details, and prices.
+Bookings: API for making bookings, checking availability.
+Reviews: API for submitting and fetching customer reviews.
+Contact Form: API to handle form submissions.
