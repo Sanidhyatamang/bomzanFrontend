@@ -45,7 +45,7 @@ const RoomsSection = () => {
 
   return (
     <section
-      className="py-12 bg-cover bg-center bg-fixed relative flex flex-col items-center borde-b-8 border-gradient-to-r from-blue-500 to-purple-500"
+      className="py-12 bg-cover bg-center bg-fixed relative flex flex-col items-center border-b-4 border-white"
       style={{ backgroundImage: 'url("/images/background28.jpg")' }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>

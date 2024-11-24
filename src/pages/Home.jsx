@@ -7,6 +7,7 @@ import FeatureSection from './FeatureSection';
 
 
 
+
 const Home = () => {
   return (
     <div>
