@@ -58,16 +58,15 @@ const Navbar = () => {
           <Link to="/testimonials" className="text-white hover:text-gray-300">Reviews</Link>
           <Link to="/blogs" className="text-white hover:text-gray-300">Blogs</Link>
           <Link to="/rooms" className="text-white hover:text-gray-300">Rooms</Link>
-          <Link to="/book-vehicle" className="text-white hover:text-gray-300">Book Vehicle</Link>
+          <button onClick={handleBooking} className="text-white hover:text-gray-300">Book Now</button>
         </div>
 
         {/* Right Side - Buttons for large screens */}
         <div className="hidden lg:flex space-x-2">
           <button
-            onClick={handleBooking}
             className="font-light font-serif text-white border border-gray-200 py-2 px-4 rounded-full transition-colors duration-300 hover:bg-blue-500 hover:border-blue-500 hover:scale-105 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Book Now
+            Contact Us
           </button>
         </div>
 
@@ -82,18 +81,17 @@ const Navbar = () => {
       {/* Mobile Menu Dropdown Content */}
       {menuOpen && (
         <div className="lg:hidden bg-gray-900/10 shadow-md backdrop-blur-sm">
-          <div className="flex flex-col items-center space-y-4 py-6 text-semibold text-lg font-light font-serif">
+          <div className="flex flex-col items-center justify-start space-y-4 py-6 text-semibold text-lg font-light font-serif">
             <Link to="/testimonials" className="text-white hover:text-gray-300" onClick={toggleMenu}>Reviews</Link>
             <Link to="/blogs" className="text-white hover:text-gray-300" onClick={toggleMenu}>Blogs</Link>
             <Link to="/rooms" className="text-white hover:text-gray-300" onClick={toggleMenu}>Rooms</Link>
-            <Link to="/book-vehicle" className="text-white hover:text-gray-300" onClick={toggleMenu}>Book Vehicle</Link>
+            <button onClick={handleBooking} className="text-white hover:text-gray-300">Book Now</button>
 
             {/* Mobile View Button */}
             <button
-              onClick={handleBooking}
               className="text-white border border-white font-medium py-2 px-4 rounded-full transition-colors duration-300 hover:scale-105 hover:bg-blue-500 hover:border-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              Book Now
+              Contact Us
             </button>
           </div>
         </div>

@@ -10,12 +10,14 @@ const BookVehicle = () => {
   const [additionalCost, setAdditionalCost] = useState(0);
   const [advancePayment, setAdvancePayment] = useState(400); // Minimum advance payment
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+  const [showUPIOptions, setShowUPIOptions] = useState(false);
 
   const vehicles = [
     { type: 'Sedan', basePrice: 1000 },
     { type: 'SUV', basePrice: 1500 },
-    { type: 'Mini Bus', basePrice: 2000 }
+    { type: 'Mini Bus', basePrice: 2000 },
   ];
 
   const dropLocations = [
@@ -29,13 +31,15 @@ const BookVehicle = () => {
   ];
 
   const handleVehicleChange = (e) => {
-    const selectedVehicle = vehicles.find(v => v.type === e.target.value);
+    const selectedVehicle = vehicles.find((v) => v.type === e.target.value);
     setVehicleType(selectedVehicle?.type || '');
     setBasePrice(selectedVehicle?.basePrice || 0);
   };
 
   const handleDropLocationChange = (e) => {
-    const selectedLocation = dropLocations.find(loc => loc.location === e.target.value);
+    const selectedLocation = dropLocations.find(
+      (loc) => loc.location === e.target.value
+    );
     setDropLocation(selectedLocation?.location || '');
     setAdditionalCost(selectedLocation?.additionalCost || 0);
   };
@@ -45,36 +49,55 @@ const BookVehicle = () => {
     setAdvancePayment(value >= 400 ? value : 400);
   };
 
-
   const handleConfirmBooking = () => {
-    if(!pickupLocation || !dropLocation || !bookingDate || !pickupTime || !vehicleType || !phoneNumber){
+    if (
+      !pickupLocation ||
+      !dropLocation ||
+      !bookingDate ||
+      !pickupTime ||
+      !vehicleType ||
+      !phoneNumber
+    ) {
       setErrorMessage('Please fill out all fields before booking.');
       return;
     }
 
-    if(phoneNumber.length !== 10) {
+    if (phoneNumber.length !== 10) {
       setErrorMessage('Phone number must be exactly 10 digits.');
       return;
     }
 
     setErrorMessage('');
-    alert('Vehicle booked successfully');
-    
-
-
-   // Clear all input fields
-      setPickupLocation('');
-      setDropLocation('');
-      setBookingDate('');
-      setPickupTime('');
-      setVehicleType('');
-      setBasePrice(0);
-      setAdditionalCost(0);
-      setAdvancePayment(400); 
-      setPhoneNumber('');
+    setShowPaymentMethods(true);
   };
 
+
   const finalPrice = basePrice + additionalCost;
+
+  const handleUPIPayment = () => {
+    const upiAddress = 'sanidhyatamang64-1@oksbi';
+    const amount = finalPrice;
+    const transactionNote = 'Vehicle Booking Payment';
+
+    const upiURL = `upi://pay?pa=${upiAddress}&pn=Bomzan%20Homestay&mc=0000&tid=1234567890&tr=${Date.now()}&tn=${transactionNote}&am=${amount}&cu=INR`;
+
+
+    if (showUPIOptions) {
+      // Open the appropriate UPI app based on the selected method
+      if (paymentMethod === 'GooglePay') {
+        window.location.href = upiURL; // This should work with Google Pay
+      } else if (paymentMethod === 'PhonePe') {
+        window.location.href = upiURL; // This should work with PhonePe
+      } else if (paymentMethod === 'Paytm') {
+        window.location.href = upiURL; // This should work with Paytm
+      }
+    }
+  };
+
+  const handleUPIClick = () => {
+    // Toggle showing the UPI payment options (GPay, PhonePe, Paytm)
+    setShowUPIOptions((prev) => !prev);
+  };
 
   return (
     <div
@@ -82,9 +105,7 @@ const BookVehicle = () => {
       style={{ backgroundImage: 'url(images/background14.jpg)' }}
     >
       <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-md p-8 rounded-lg shadow-lg w-full max-w-4xl">
-        <h2 className="text-2xl font-thin mb-6 text-center">
-          Book Your Vehicle
-        </h2>
+        <h2 className="text-2xl font-thin mb-6 text-center">Book Your Vehicle</h2>
 
         {/* Responsive Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -166,7 +187,9 @@ const BookVehicle = () => {
 
           {/* Advance Payment */}
           <div>
-            <label className="block text-gray-900 mb-2">Advance Payment (₹):</label>
+            <label className="block text-gray-900 mb-2">
+              Advance Payment (₹):
+            </label>
             <input
               type="number"
               className="w-full p-2 border border-gray-300 bg-white bg-opacity-50 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
@@ -188,33 +211,101 @@ const BookVehicle = () => {
               value={phoneNumber}
               onChange={(e) => {
                 const value = e.target.value;
-                if (/^\d{0,10}$/.test(value)) { // Ensures only numbers up to 10 digits
+                if (/^\d{0,10}$/.test(value)) {
                   setPhoneNumber(value);
                 }
               }}
             />
             {phoneNumber.length > 0 && phoneNumber.length !== 10 && (
-              <p className="text-red-600 text-sm mt-1">Phone number must be 10 digits.</p>
+              <p className="text-red-600 text-sm mt-1">
+                Phone number must be 10 digits.
+              </p>
             )}
           </div>
         </div>
 
         {/* Error Message */}
         {errorMessage && (
-          <div className="text-red-600 text-center mt-4">
-            {errorMessage}
-          </div>
+          <p className="text-red-600 text-center mt-4">{errorMessage}</p>
         )}
 
-        {/* Confirm Button */}
-        <div className="mt-6 flex justify-center">
+        {/* Confirm Booking */}
+        <div className="flex justify-center mt-6">
           <button
-          onClick={handleConfirmBooking} 
-          className="w-40 border border-gray-800 text-gray-800 p-2 rounded-full shadow-lg hover:scale-105 duration-200 hover:bg-blue-600 hover:border-blue-500 hover:text-white focus:outline-none"
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition focus:outline-none"
+            onClick={handleConfirmBooking}
           >
             Confirm Booking
           </button>
         </div>
+
+        {/* Payment Methods */}
+        {showPaymentMethods && (
+          <div className="mt-6">
+            <h3 className="text-center text-lg font-light mb-4">
+              Choose a Payment Method
+            </h3>
+            <div className="flex justify-center space-x-6 text-gray-900 font-medium font-serif cursor-pointer">
+
+              {/*UPI Payment Options */}
+              <div className="mb-4">
+                <img 
+                src="/images/UPI.png" 
+                alt="UPI" 
+                className="h-12 object-contain"
+                onClick={handleUPIClick}
+                />
+                 <p className="text-sm mt-2">UPI</p>
+              
+              </div>
+
+              {/* Show UPI Payment Options */}
+              {showUPIOptions && (
+                <div className="space-y-2">
+                  <button
+                  className="bg-gray-200 px-4 py-2 rounded-lg w-full flex"
+                  onClick={() => setShowPaymentMethods('GooglePay')}
+                  >
+                    <img 
+                    src="images/gpay.jpg" 
+                    alt="GooglePay" 
+                    className="h-12 object-contain"
+                    />
+                    GooglePay
+                  </button>
+                  
+                  <button
+                  className="bg-gray-200 px-4 py-2 rounded w-full"
+                  onClick={() => setPaymentMethod('PhonePe')}
+                >
+                  <img 
+                  src="" 
+                  alt="" 
+                  />
+                  PhonePe
+                </button>
+                <button
+                  className="bg-gray-200 px-4 py-2 rounded w-full"
+                  onClick={() => setPaymentMethod('Paytm')}
+                >
+                  Paytm
+                </button>
+                </div>
+              )}
+
+              {/* Internet Banking */}
+              <div className="text-center">
+                <img
+                  src="/images/internet-banking.png"
+                  alt="Internet Banking"
+                  className="h-12 object-contain"
+                />
+                <p className="text-sm mt-2">Internet <br />Banking</p>
+              </div>
+              
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
