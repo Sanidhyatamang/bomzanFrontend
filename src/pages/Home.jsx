@@ -8,9 +8,10 @@ import FeatureSection from './FeatureSection';
 
 
 
+
 const Home = () => {
   return (
-    <div>
+    <div className="overflow-x-hidden h-screen grid place-items-center">
       <Navbar/>
       <HeroSection />
       <About />
