@@ -5,7 +5,8 @@ import BookingPage from './pages/BookingPage';
 import RoomsSection from './pages/RoomsSection';
 import Testimonials from './pages/Testimonials';
 import BlogSection from './pages/BlogSection';
-import BookVehicle from "./pages/BookVehicle"
+import Contact from './pages/Contact';
+
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
           <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/blogs" element={<BlogSection />}/>
-          <Route path="/book-vehicle" element={<BookVehicle />}/>
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
     </Router>

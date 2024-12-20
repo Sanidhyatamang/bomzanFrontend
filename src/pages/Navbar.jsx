@@ -64,7 +64,11 @@ const Navbar = () => {
         {/* Right Side - Buttons for large screens */}
         <div className="hidden lg:flex space-x-2">
           <button
-            className="font-light font-serif text-white border border-gray-200 py-2 px-4 rounded-full transition-colors duration-300 hover:bg-blue-500 hover:border-blue-500 hover:scale-105 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onClick={() => {
+            navigate('/contact');
+            setMenuOpen(false)
+          }}
+          className="font-light font-serif text-white border border-gray-200 py-2 px-4 rounded-full transition-colors duration-300 hover:bg-blue-500 hover:border-blue-500 hover:scale-105 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Contact Us
           </button>
@@ -89,7 +93,11 @@ const Navbar = () => {
 
             {/* Mobile View Button */}
             <button
-              className="text-white border border-white font-medium py-2 px-4 rounded-full transition-colors duration-300 hover:scale-105 hover:bg-blue-500 hover:border-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onClick={ () => {
+              navigate('/contact');
+              setMenuOpen(false)
+            }}
+            className="text-white border border-white font-medium py-2 px-4 rounded-full transition-colors duration-300 hover:scale-105 hover:bg-blue-500 hover:border-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Contact Us
             </button>
